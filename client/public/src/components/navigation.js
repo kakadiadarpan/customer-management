@@ -5,7 +5,7 @@ class Navigation extends Component {
       <nav className="navbar navbar-default">
         <div className="container-fluid">
           <div className="navbar-header">
-          <a className="navbar-brand" href="#">Upstox</a>
+          <a className="navbar-brand" href="#">Customer Management</a>
           </div>
           <ul className="nav navbar-nav">
           <li><a href="/home">Home</a></li>

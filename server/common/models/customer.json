@@ -1,0 +1,204 @@
+{
+  "name": "Customer",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "customer_id": {
+      "type": "number",
+      "id": true,
+      "required": false,
+      "index": true,
+      "comments": "ID of the customer"
+    },
+    "email": {
+      "type": "string",
+      "required": true,
+      "comments": "Email of the customer"
+    },
+    "referral_id": {
+      "type": "number",
+      "comments": "ID of the customer who referred this customer"
+    },
+    "payback": {
+      "type": "number",
+      "comments": "Net money received till now by referring users."
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {
+    "addCustomer": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "email",
+          "type": "string",
+          "required": true,
+          "description": "Email of the customer"
+        },
+        {
+          "arg": "referral_id",
+          "type": "number",
+          "required": false,
+          "description": "Referral ID"
+        }
+      ],
+      "returns": [
+        {
+          "arg": "response",
+          "type": "object",
+          "root": false,
+          "description": "Response of the request."
+        }
+      ],
+      "description": "Adds a new customer",
+      "http": [
+        {
+          "path": "/addCustomer",
+          "verb": "post"
+        }
+      ]
+    },
+    "addReferral": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "childrenIds",
+          "type": "array",
+          "required": true,
+          "description": "IDs of the children customers."
+        },
+        {
+          "arg": "customer_id",
+          "type": "string",
+          "required": true,
+          "description": "ID of the parent customer"
+        }
+      ],
+      "returns": [
+        {
+          "arg": "response",
+          "type": "object",
+          "root": false,
+          "description": "Response object"
+        }
+      ],
+      "description": "Add children customers referred by a parent customer.",
+      "http": [
+        {
+          "path": "/addReferral",
+          "verb": "post"
+        }
+      ]
+    },
+    "fetchAllChildren": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "customer_id",
+          "type": "number",
+          "required": true,
+          "description": "ID of the parent customer"
+        }
+      ],
+      "returns": [
+        {
+          "arg": "response",
+          "type": "object",
+          "root": false,
+          "description": "Response object containing the children list"
+        }
+      ],
+      "description": "Fetch all children customers for a given parent customer ID",
+      "http": [
+        {
+          "path": "/fetchAllChildren",
+          "verb": "get"
+        }
+      ]
+    },
+    "fetchAllCustomersWithReferralCount": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "sortFlag",
+          "type": "number",
+          "required": true,
+          "description": "Flag for sorting, 1 for ascending and -1 for descending."
+        }
+      ],
+      "returns": [
+        {
+          "arg": "response",
+          "type": "object",
+          "root": false,
+          "description": "Response object"
+        }
+      ],
+      "description": "Fetch all customers with the number ofchildrens referred by them in ascending or descending order",
+      "http": [
+        {
+          "path": "/fetchAllCustomersWithReferralCount",
+          "verb": "get"
+        }
+      ]
+    },
+    "fetchUnreferredCustomers": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "customer_id",
+          "type": "number",
+          "required": true,
+          "description": "ID of the customer requesting this list"
+        }
+      ],
+      "returns": [
+        {
+          "arg": "response",
+          "type": "object",
+          "root": false,
+          "description": "Response object"
+        }
+      ],
+      "description": "Fetches customers who have not been referred by anone till now",
+      "http": [
+        {
+          "path": "/fetchUnreferredCustomers",
+          "verb": "get"
+        }
+      ]
+    },
+    "getCustomerById": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "customer_id",
+          "type": "number",
+          "required": true,
+          "description": "ID of the customer"
+        }
+      ],
+      "returns": [
+        {
+          "arg": "response",
+          "type": "object",
+          "root": false,
+          "description": "Response object"
+        }
+      ],
+      "description": "Gets customer by id",
+      "http": [
+        {
+          "path": "/getCustomerById",
+          "verb": "get"
+        }
+      ]
+    }
+  }
+}
